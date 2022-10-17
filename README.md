@@ -5,9 +5,8 @@
 ## How to develop
 
 * `git clone ... && cd ...`
-* `yarn`
-* `yarn start` to start development server with hot-reload
-* open <http://localhost:3000> in your browser
+* `yarn` to install dependencies
+* `yarn start` to start development server with hot-reload on <http://localhost:3000>
 
 ## How to update
 

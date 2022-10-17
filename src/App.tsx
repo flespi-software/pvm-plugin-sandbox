@@ -54,7 +54,6 @@ export default function App() {
   const showErrorInCode = (ed: monaco.editor.IStandaloneCodeEditor, line: number, col: number, errMsg: string) => {
     ed.revealPositionInCenter({ lineNumber: line, column: col })
     ed.setPosition({ lineNumber: line, column: col })
-    // ed.focus()
     const ids = ed.deltaDecorations(decorations, [
       {
         range: new monaco.Range(line, col, line, col),
@@ -301,6 +300,11 @@ export default function App() {
               ) : (
                 <>
                   <h1>What is that?</h1>
+                  <Typography>
+                    <a target="_blank" href="https://github.com/flespi-software/pvm-plugin-sandbox">
+                      Source code
+                    </a>
+                  </Typography>
                   <Typography>
                     This is a tool to test a{' '}
                     <a target="_blank" href="https://flespi.com/kb/how-to-script-custom-parsing-logic-for-message-payload">
