@@ -166,14 +166,23 @@ export default function App() {
 
   const handleEditorDidMount = (editor: monaco.editor.IStandaloneCodeEditor, monaco: Monaco) => {
     editorRef.current = editor
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
-      setAction('save')
+    editor.addAction({
+      id: 'sandbox-save',
+      label: 'Save',
+      keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS],
+      run: () => setAction('save'),
     })
-    editor.addCommand(monaco.KeyCode.F9, () => {
-      setAction('test')
+    editor.addAction({
+      id: 'sandbox-test',
+      label: 'Test',
+      keybindings: [monaco.KeyCode.F9],
+      run: () => setAction('test'),
     })
-    editor.addCommand(monaco.KeyCode.F2, () => {
-      setAction('pretty')
+    editor.addAction({
+      id: 'sandbox-input-pretty',
+      label: 'Pretty Input Message',
+      keybindings: [monaco.KeyCode.F2],
+      run: () => setAction('pretty'),
     })
     editor.getModel()?.updateOptions({ tabSize: 4, insertSpaces: false })
   }
