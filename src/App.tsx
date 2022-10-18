@@ -166,6 +166,166 @@ export default function App() {
 
   const handleEditorDidMount = (editor: monaco.editor.IStandaloneCodeEditor, monaco: Monaco) => {
     editorRef.current = editor
+    monaco.languages.register({
+      id: 'pvm',
+    })
+    monaco.languages.setLanguageConfiguration('pvm', {
+      comments: {
+        lineComment: '//',
+        blockComment: ['/*', '*/'],
+      },
+    })
+    monaco.languages.setMonarchTokensProvider('pvm', {
+      ignoreCase: false,
+
+      // C# style strings
+      escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+
+      keywords: [
+        'pass',
+        'repeat',
+        'span',
+        'split',
+        'item',
+        'items_count',
+        'has_item',
+        'unparsed',
+        'foreach',
+        'cmdresult',
+        'cmdlock',
+        'skip',
+        'bits',
+        'binary',
+        'switch',
+        'default',
+        'if',
+        'elif',
+        'else',
+        'block',
+        'break',
+        'continue',
+        'return',
+        'login',
+        'store',
+        'unset',
+        'format',
+        'map',
+        'error',
+        'keep',
+        'is_set',
+        'range',
+        'match',
+        'found',
+        'compressed',
+        'crc_of',
+        'size_of',
+        'reset',
+        'strptime',
+        'mktime',
+        'delete',
+        'merge_cancel',
+        'invalid',
+        'unsupported',
+        'send',
+        'any_of',
+        'trim',
+        'trimright',
+        'trimleft',
+        'strescape',
+        'bitfield',
+        'trace',
+        'sleep',
+        'cdn_check',
+        'json',
+        'json_array',
+        'type_of',
+        'current_command',
+        'optional',
+        'method',
+        'uri',
+        'body',
+        'speed',
+        'endian',
+        'object',
+        'array',
+        'array_length',
+        'send_command',
+        'copy_input_to_message',
+        'new_message',
+        'timestamp',
+        'move',
+        'append',
+        'bit',
+        'of',
+        'concat',
+      ],
+
+      brackets: [
+        { open: '{', close: '}', token: 'delimiter.curly' },
+        { open: '[', close: ']', token: 'delimiter.bracket' },
+        { open: '(', close: ')', token: 'delimiter.parenthesis' },
+      ],
+
+      tokenizer: {
+        root: [
+          { include: '@whitespace' },
+          { include: '@numbers' },
+          { include: '@strings' },
+
+          [/[,:;]/, 'delimiter'],
+          [/[{}\[\]()]/, '@brackets'],
+
+          [/\$[a-zA-Z]\w*/, 'variable.name'],
+          [/\%[a-zA-Z][\w\.]*/, 'type'],
+          [/\.[a-zA-Z]\w*/, 'attribute'],
+          [/\#[a-zA-Z][\w\.]*/, 'tag'],
+          [/\@[a-zA-Z][\w\.]*/, 'identifier'],
+
+          [/(true|false|null)/, 'keyword'],
+
+          [
+            /[a-zA-Z]\w*/,
+            {
+              cases: {
+                '@keywords': 'keyword',
+                '@default': 'identifier',
+              },
+            },
+          ],
+        ],
+
+        // Deal with white space, including single and multi-line comments
+        whitespace: [
+          [/\s+/, 'white'],
+          [/(^\/\/.*$)/, 'comment'],
+        ],
+
+        // Recognize hex, negatives, decimals, imaginaries, longs, and scientific notation
+        numbers: [
+          [/-?0x([abcdef]|[ABCDEF]|\d)+/, 'number.hex'],
+          [/[\-\+]?(\d*\.)?\d+/, 'number'],
+          [/-?(nan|inf)/, 'number.nan'],
+        ],
+
+        // Recognize strings, including those broken across lines with \ (but not without)
+        strings: [
+          [/`/, 'string.fixed', '@fixedStringBody'],
+          [/"/, 'string.escape', '@dblStringBody'],
+        ],
+        fixedStringBody: [
+          [/[^\\`]+$/, 'string', '@popall'],
+          [/[^\\`]+/, 'string'],
+          [/`/, 'string.fixed', '@popall'],
+        ],
+        dblStringBody: [
+          [/[^\\"]+$/, 'string', '@popall'],
+          [/[^\\"]+/, 'string'],
+          [/\\./, 'string'],
+          [/"/, 'string.escape', '@popall'],
+        ],
+      },
+    })
+
     editor.addAction({
       id: 'sandbox-save',
       label: 'Save',
@@ -292,7 +452,7 @@ export default function App() {
                 <>
                   <Editor
                     height={`calc(100% - ${idsSelectorHeight}px - ${codeButtonsHeight}px)`}
-                    defaultLanguage="pvm"
+                    language="pvm"
                     defaultValue={sharedState.plugin_code}
                     onMount={handleEditorDidMount}
                     onChange={handleEditorChange}
