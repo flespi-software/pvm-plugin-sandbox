@@ -439,10 +439,10 @@ export default function App() {
 
   return (
     <Box sx={{ flexGrow: 1 }} style={{ height: '100vh' }}>
-      <Grid container direction="column" style={{ height: '100vh' }} justifyContent="space-between">
+      <Grid container direction="column" style={{ minWidth: '1461px', height: '100vh' }} justifyContent="space-between">
         <Grid item>
           <Grid container>
-            <Grid item xs={8} border="1px solid black" style={{ height: '100vh', padding: '7px' }}>
+            <Grid item xs={8} border="1px solid black" style={{ minWidth: '964px', height: '100vh', padding: '7px' }}>
               <Stack height={`${idsSelectorHeight}px`} direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={1}>
                 <TokenSelector />
                 {sharedState.token && <DeviceSelector />}
