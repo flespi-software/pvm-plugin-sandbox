@@ -258,6 +258,7 @@ export default function App() {
         'bit',
         'of',
         'concat',
+        'reverse',
       ],
 
       brackets: [
