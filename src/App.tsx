@@ -284,6 +284,8 @@ export default function App() {
 
           [/(true|false|null)/, 'keyword'],
 
+          [/\/\*/, 'comment', '@comment'],
+
           [
             /[a-zA-Z]\w*/,
             {
@@ -299,6 +301,11 @@ export default function App() {
         whitespace: [
           [/\s+/, 'white'],
           [/(^\/\/.*$)/, 'comment'],
+        ],
+
+        comment: [
+          [/\*\//, 'comment', '@pop'],
+          [/./, 'comment.content'],
         ],
 
         // Recognize hex, negatives, decimals, imaginaries, longs, and scientific notation
