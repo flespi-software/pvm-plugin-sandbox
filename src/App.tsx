@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Backdrop, Box, Button, CircularProgress, Divider, Grid, Stack, TextField, Typography } from '@mui/material'
+import { Backdrop, Box, Button, Checkbox, CircularProgress, Divider, FormControlLabel, Grid, Stack, TextField, Typography } from '@mui/material'
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
 import { useSharedState } from './state'
 import TokenSelector from './TokenSelector'
@@ -33,6 +33,16 @@ const validateJson = (value: string): string | null => {
   return error
 }
 
+const systemFields = ['ident', 'device.id', 'device.name', 'device.type.id', 'rest.timestamp']
+
+const hideSystemFiles = (value: Record<string, any>): Record<string, any> => {
+  const result: Record<string, any> = {}
+  for (const name in value) {
+    if (!systemFields.includes(name)) result[name] = value[name]
+  }
+  return result
+}
+
 type TAction = '' | 'save' | 'test' | 'pretty'
 
 export default function App() {
@@ -49,6 +59,7 @@ export default function App() {
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor>()
   const [pluginLogMsg, setPluginLogMsg] = useState<Record<string, any> | null>(null)
   const [deviceMsg, setDeviceMsg] = useState<Record<string, any> | null>()
+  const [displayedMsg, setDisplayedMsg] = useState<Record<string, any> | null>()
   const [action, setAction] = useState<TAction>('')
 
   const showErrorInCode = (ed: monaco.editor.IStandaloneCodeEditor, line: number, col: number, errMsg: string) => {
@@ -371,6 +382,10 @@ export default function App() {
     setMsgJsonValidationError(validateJson(value))
   }
 
+  const hideSystemFieldsChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSharedState({ ...sharedState, hide_system_fields: e.target.checked })
+  }
+
   const btnSave = () => {
     setAction('save')
   }
@@ -431,9 +446,15 @@ export default function App() {
 
   useEffect(() => {
     if (!deviceMsg) return
-    setMsgProcessed(JSON.stringify(deviceMsg, null, 4))
+    if (sharedState.hide_system_fields) setDisplayedMsg(hideSystemFiles(deviceMsg))
+    else setDisplayedMsg(deviceMsg)
+  }, [deviceMsg, sharedState.hide_system_fields])
+
+  useEffect(() => {
+    if (!displayedMsg) return
+    setMsgProcessed(JSON.stringify(displayedMsg, null, 4))
     setMsgProcessedError(false)
-  }, [deviceMsg])
+  }, [displayedMsg])
 
   useEffect(() => {
     if (!sharedState.plugin_id || !mqttCl.current) return
@@ -542,11 +563,16 @@ export default function App() {
                     error={!!msgJsonValidationError}
                     label="Input message JSON Object"
                     multiline
-                    minRows="18"
-                    maxRows="18"
+                    minRows="17"
+                    maxRows="17"
                     fullWidth
                     value={sharedState.messageJson}
                     onChange={msgJsonChange}
+                  />
+                  &nbsp;
+                  <FormControlLabel
+                    control={<Checkbox checked={sharedState.hide_system_fields} onChange={hideSystemFieldsChange} />}
+                    label="Hide system fields"
                   />
                   &nbsp;
                   <TextField

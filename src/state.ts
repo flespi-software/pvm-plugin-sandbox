@@ -7,6 +7,7 @@ export interface TSharedState {
   device_id?: number
   plugin_id?: number
   plugin_code?: string
+  hide_system_fields?: boolean
 }
 
 const defaultMessage = `{
@@ -21,4 +22,5 @@ const defaultMessage = `{
 export const [useSharedState, SharedStateProvider] = createStateContext<TSharedState>({
   loading: false,
   messageJson: localStorage.getItem('input-message') || defaultMessage,
+  hide_system_fields: true,
 })
