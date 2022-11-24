@@ -53,6 +53,7 @@ export default function DeviceSelector() {
         <>
           <TextField
             id="device-id"
+            key="device-id"
             label="Device ID"
             size="small"
             value={deviceIdInput}

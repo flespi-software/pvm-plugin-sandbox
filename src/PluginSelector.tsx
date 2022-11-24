@@ -78,6 +78,7 @@ export default function PluginSelector() {
         <>
           <TextField
             id="plugin-id"
+            key="plugin-id"
             label="Plugin ID"
             size="small"
             value={pluginIdInput}

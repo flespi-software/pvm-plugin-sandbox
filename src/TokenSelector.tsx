@@ -32,6 +32,7 @@ export default function TokenSelector() {
     <>
       <TextField
         id="token"
+        key="token"
         label="Token"
         size="small"
         style={{ width: '650px' }}

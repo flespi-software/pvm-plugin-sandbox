@@ -480,6 +480,7 @@ export default function App() {
               {sharedState.plugin_code !== undefined ? (
                 <>
                   <Editor
+                    key="plugin-code"
                     height={`calc(100% - ${idsSelectorHeight}px - ${codeButtonsHeight}px)`}
                     language="pvm"
                     defaultValue={sharedState.plugin_code}
@@ -560,6 +561,7 @@ export default function App() {
                   {/* <textarea id="message-json" style={{ width: '100%', height: `calc(100% - ${msgHeaderHeight}px)`, }}>msg</textarea> */}
                   <TextField
                     id="message-json"
+                    key="message-json"
                     error={!!msgJsonValidationError}
                     label="Input message JSON Object"
                     multiline
@@ -577,6 +579,7 @@ export default function App() {
                   &nbsp;
                   <TextField
                     id="output"
+                    key="output"
                     label="Output"
                     multiline
                     minRows="18"
