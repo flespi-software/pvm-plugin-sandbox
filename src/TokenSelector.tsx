@@ -3,6 +3,7 @@ import { Button, TextField } from '@mui/material'
 import { ChangeEvent, useState } from 'react'
 import { useSharedState } from './state'
 import { useLocalStorageString } from './useLocalStorageString'
+import HiddenToken from './HiddenToken'
 
 const validateToken = (value: string): string => {
   if (value === '') return 'empty token'
@@ -27,7 +28,9 @@ export default function TokenSelector() {
   }
 
   return sharedState.token ? (
-    <span>Token: {sharedState.token}</span>
+    <span>
+      Token: <HiddenToken token={sharedState.token} />
+    </span>
   ) : (
     <>
       <TextField
