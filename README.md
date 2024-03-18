@@ -8,7 +8,7 @@
 * `yarn` to install dependencies
 * `yarn start` to start development server with hot-reload on <http://localhost:3000>
 
-## How to update
+## How to upgrade and deploy on github pages
 
 * edit code
 * commit & push it

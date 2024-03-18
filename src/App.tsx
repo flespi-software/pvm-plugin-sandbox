@@ -433,14 +433,14 @@ export default function App() {
   useEffect(() => {
     if (!pluginLogMsg) return
     // 0000bc [plugin.42.1024781:1:20] in ...
-    const m = /plugin\.[^:]+:(\d+:\d+)/.exec(pluginLogMsg.error_text)
+    const m = /plugin\.[^:]+:(\d+:\d+)/.exec(pluginLogMsg.reason)
     if (!m || !editorRef.current) {
-      setMsgProcessed(pluginLogMsg.error_text || JSON.stringify(pluginLogMsg))
+      setMsgProcessed(pluginLogMsg.reason || JSON.stringify(pluginLogMsg))
       setMsgProcessedError(true)
     } else {
       const [_, codePos] = m
       const [line, col] = codePos.split(':')
-      showErrorInCode(editorRef.current, +line, +col, pluginLogMsg.error_text)
+      showErrorInCode(editorRef.current, +line, +col, pluginLogMsg.reason)
     }
   }, [pluginLogMsg])
 
