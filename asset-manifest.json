@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/pvm-plugin-sandbox/static/css/main.2ba5525c.css",
-    "main.js": "/pvm-plugin-sandbox/static/js/main.661ebb72.js",
+    "main.css": "/pvm-plugin-sandbox/static/css/main.b43aad47.css",
+    "main.js": "/pvm-plugin-sandbox/static/js/main.ed409c06.js",
     "static/media/codicon.ttf": "/pvm-plugin-sandbox/static/media/codicon.b797181c93b3755f4fa1.ttf",
     "index.html": "/pvm-plugin-sandbox/index.html",
-    "main.2ba5525c.css.map": "/pvm-plugin-sandbox/static/css/main.2ba5525c.css.map",
-    "main.661ebb72.js.map": "/pvm-plugin-sandbox/static/js/main.661ebb72.js.map"
+    "main.b43aad47.css.map": "/pvm-plugin-sandbox/static/css/main.b43aad47.css.map",
+    "main.ed409c06.js.map": "/pvm-plugin-sandbox/static/js/main.ed409c06.js.map"
   },
   "entrypoints": [
-    "static/css/main.2ba5525c.css",
-    "static/js/main.661ebb72.js"
+    "static/css/main.b43aad47.css",
+    "static/js/main.ed409c06.js"
   ]
 }
