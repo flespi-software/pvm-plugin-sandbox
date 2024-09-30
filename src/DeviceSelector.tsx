@@ -3,7 +3,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import { ChangeEvent, useState } from 'react'
 import { useSharedState } from './state'
 import { useLocalStorageString } from './useLocalStorageString'
-import { flespiPOST } from './flespiRequest'
+import { flespiGET, flespiPOST } from './flespiRequest'
 import RequestError from './RequestError'
 
 const validateDeviceId = (value: string): string => {
@@ -35,7 +35,11 @@ export default function DeviceSelector() {
   const btnCreate = async () => {
     setSharedState({ ...sharedState, loading: true })
     try {
-      const resp = await flespiPOST(sharedState, '/gw/devices', [{ name: 'pvm-plugin-tester', device_type_id: 0, configuration: {} }])
+      // NOTE: using first device type of protocol with name=http to get any generic device type
+      const dt_resp = await flespiGET(sharedState, '/gw/channel-protocols/name=http/device-types/all?fields=id')
+      const device_type_id = dt_resp.result[0].id
+      const ident = 'pvm-plugin-tester-ident'
+      const resp = await flespiPOST(sharedState, '/gw/devices', [{ name: 'pvm-plugin-tester-name', device_type_id, configuration: { ident } }])
       console.log('resp', resp)
       setDeviceIdInput(resp.result[0].id.toString())
     } catch (e: any) {
