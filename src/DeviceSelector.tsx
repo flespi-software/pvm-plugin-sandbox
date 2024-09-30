@@ -38,7 +38,7 @@ export default function DeviceSelector() {
       // NOTE: using first device type of protocol with name=http to get any generic device type
       const dt_resp = await flespiGET(sharedState, '/gw/channel-protocols/name=http/device-types/all?fields=id')
       const device_type_id = dt_resp.result[0].id
-      const ident = 'pvm-plugin-tester-ident'
+      const ident = `pvm-plugin-tester-ident-${new Date().getTime()}`
       const resp = await flespiPOST(sharedState, '/gw/devices', [{ name: 'pvm-plugin-tester-name', device_type_id, configuration: { ident } }])
       console.log('resp', resp)
       setDeviceIdInput(resp.result[0].id.toString())
